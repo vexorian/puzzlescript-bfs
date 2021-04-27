@@ -1,0 +1,205 @@
+title BFS
+author vexorian
+
+(verbose_logging)
+enable_level_select
+
+
+(
+zlib License
+
+Copyright (c) 2021, Victor Hugo Soliz Kuncar
+
+This software is provided 'as-is', without any express or implied
+warranty. In no event will the authors be held liable for any damages
+arising from the use of this software.
+
+Permission is granted to anyone to use this software for any purpose,
+including commercial applications, and to alter it and redistribute it
+freely, subject to the following restrictions:
+
+1. The origin of this software must not be misrepresented; you must not
+   claim that you wrote the original software. If you use this software
+   in a product, an acknowledgment in the product documentation would be
+   appreciated but is not required.
+2. Altered source versions must be plainly marked as such, and must not be
+   misrepresented as being the original software.
+3. This notice may not be removed or altered from any source distribution.
+
+)
+
+
+
+========
+OBJECTS
+========
+
+Background
+Black
+
+Wall
+White
+
+Player
+Blue
+
+Monster
+Red
+
+BFS1U
+transparent
+
+BFS1D
+transparent
+
+BFS1R
+transparent
+
+BFS1L
+transparent
+
+BFS2U
+transparent
+
+BFS2D
+transparent
+
+BFS2R
+transparent
+
+BFS2L
+transparent
+
+
+=======
+LEGEND
+=======
+
+. = Background
+P = Background and Player
+# = Background and Wall
+x = Background and Monster
+
+BFS1 = BFS1U or BFS1D or BFS1L or BFS1R
+BFS2 = BFS2U or BFS2D or BFS2L or BFS2R
+BFS  = BFS1 or BFS2
+
+BFSU = BFS1U or BFS2U
+BFSD = BFS1D or BFS2D
+BFSL = BFS1L or BFS2L
+BFSR = BFS1R or BFS2R
+
+=======
+SOUNDS
+=======
+
+================
+COLLISIONLAYERS
+================
+
+Background
+Player, Wall, Monster
+BFS1, BFS2
+
+
+======
+RULES
+======
+[ action Player] -> win
+
+left  [ left  Player | no Wall no Monster ] -> [ | Player ]
+right [ right Player | no Wall no Monster ] -> [ | Player ]
+up    [ up    Player | no Wall no Monster ] -> [ | Player ]
+down  [ down  Player | no Wall no Monster ] -> [ | Player ]
+
+[ Player ] -> [ stationary Player ]
+
+[BFS] -> []
+[ Player ] -> [ Player random BFS1U ]
+
+startloop
+
+  down [ no BFS2 no BFS1 no Wall no Player | BFS1 no Monster ] -> [ BFS2D | BFS1 ]
+  up   [ no BFS2 no BFS1 no Wall no Player | BFS1 no Monster ] -> [ BFS2U | BFS1 ]
+  right[ no BFS2 no BFS1 no Wall no Player | BFS1 no Monster ] -> [ BFS2R | BFS1 ]
+  left [ no BFS2 no BFS1 no Wall no Player | BFS1 no Monster ] -> [ BFS2L | BFS1 ]
+
+  down [ no BFS2 no BFS1 no Wall no Player | BFS2 no Monster ] -> [ BFS1D | BFS2 ]
+  up   [ no BFS2 no BFS1 no Wall no Player | BFS2 no Monster ] -> [ BFS1U | BFS2 ]
+  right[ no BFS2 no BFS1 no Wall no Player | BFS2 no Monster ] -> [ BFS1R | BFS2 ]
+  left [ no BFS2 no BFS1 no Wall no Player | BFS2 no Monster ] -> [ BFS1L | BFS2 ]
+
+
+endloop
+
+[ BFSU Monster ] -> [ up    Monster ]
+[ BFSD Monster ] -> [ down  Monster ]
+[ BFSL Monster ] -> [ left  Monster ]
+[ BFSR Monster ] -> [ right Monster ]
+
+late [ Monster | Player ] -> [ Monster | ] 
+
+
+
+
+==============
+WINCONDITIONS
+==============
+
+=======
+LEVELS
+=======
+
+level_select_point
+
+#######
+#X....#
+#.....#
+#.....#
+#.....#
+#....P#
+#######
+
+level_select_point
+
+#########
+#X.#....#
+#..#.#..#
+#..#.#..#
+#..#.#..#
+#....#.P#
+#########
+
+level_select_point
+
+###########
+#.......x.#
+#..#.####.#
+#..#...#..#
+#..#p#.#..#
+#....#....#
+#....####.#
+#.#.....#.#
+#x####.x#.#
+#.........#
+###########
+
+level_select_point
+
+#############
+#........#..#
+#..####x##..#
+#.....###...#
+####....#.x.#
+#..#....#...#
+#.x#..p.###.#
+#..#........#
+#.##..###...#
+#.##.##.#...#
+#....#.x.#..#
+#....#...#..#
+#....#......#
+#############
+
+
+
