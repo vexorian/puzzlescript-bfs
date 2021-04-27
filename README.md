@@ -1,8 +1,10 @@
 # puzzlescript-bfs
 
 
-A BFS (Bread-First-Search) demo for puzzle script. BFS is a search algorithm that's one of the simplest way to find the minimum path between two nodes in a network assuming all steps are weighted the same.
+A BFS (Bread-First-Search) demo for puzzle script. BFS is a search algorithm that's one of the simplest way to find the minimum 
+path between two nodes in a network assuming all steps are weighted the same.
 
+![https://raw.githubusercontent.com/vexorian/puzzlescript-bfs/main/mazesolver2.gif](GIF preview)
 
 ## Try it
 
