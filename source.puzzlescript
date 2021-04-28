@@ -46,28 +46,16 @@ Blue
 Monster
 Red
 
-BFS1U
+BFSU
 transparent
 
-BFS1D
+BFSD
 transparent
 
-BFS1R
+BFSR
 transparent
 
-BFS1L
-transparent
-
-BFS2U
-transparent
-
-BFS2D
-transparent
-
-BFS2R
-transparent
-
-BFS2L
+BFSL
 transparent
 
 
@@ -80,14 +68,8 @@ P = Background and Player
 # = Background and Wall
 x = Background and Monster
 
-BFS1 = BFS1U or BFS1D or BFS1L or BFS1R
-BFS2 = BFS2U or BFS2D or BFS2L or BFS2R
-BFS  = BFS1 or BFS2
+BFS = BFSU or BFSD or BFSL or BFSR
 
-BFSU = BFS1U or BFS2U
-BFSD = BFS1D or BFS2D
-BFSL = BFS1L or BFS2L
-BFSR = BFS1R or BFS2R
 
 =======
 SOUNDS
@@ -99,7 +81,7 @@ COLLISIONLAYERS
 
 Background
 Player, Wall, Monster
-BFS1, BFS2
+BFS
 
 
 ======
@@ -107,28 +89,19 @@ RULES
 ======
 [ action Player] -> win
 
-left  [ left  Player | no Wall no Monster ] -> [ | Player ]
-right [ right Player | no Wall no Monster ] -> [ | Player ]
-up    [ up    Player | no Wall no Monster ] -> [ | Player ]
-down  [ down  Player | no Wall no Monster ] -> [ | Player ]
-
+[ > Player | no Wall no Monster ] -> [ | Player ]
 [ Player ] -> [ stationary Player ]
 
 [BFS] -> []
-[ Player ] -> [ Player random BFS1U ]
+[ Player ] -> [ Player random BFS ]
 
 startloop
 
-  down [ no BFS2 no BFS1 no Wall no Player | BFS1 no Monster ] -> [ BFS2D | BFS1 ]
-  up   [ no BFS2 no BFS1 no Wall no Player | BFS1 no Monster ] -> [ BFS2U | BFS1 ]
-  right[ no BFS2 no BFS1 no Wall no Player | BFS1 no Monster ] -> [ BFS2R | BFS1 ]
-  left [ no BFS2 no BFS1 no Wall no Player | BFS1 no Monster ] -> [ BFS2L | BFS1 ]
-
-  down [ no BFS2 no BFS1 no Wall no Player | BFS2 no Monster ] -> [ BFS1D | BFS2 ]
-  up   [ no BFS2 no BFS1 no Wall no Player | BFS2 no Monster ] -> [ BFS1U | BFS2 ]
-  right[ no BFS2 no BFS1 no Wall no Player | BFS2 no Monster ] -> [ BFS1R | BFS2 ]
-  left [ no BFS2 no BFS1 no Wall no Player | BFS2 no Monster ] -> [ BFS1L | BFS2 ]
-
+  [ action BFS ] -> [ stationary BFS ]
+  down [ no BFS no Wall no Player | stationary BFS no Monster ] -> [ action BFSD | stationary BFS ]
+  up   [ no BFS no Wall no Player | stationary BFS no Monster ] -> [ action BFSU | stationary BFS ]
+  left [ no BFS no Wall no Player | stationary BFS no Monster ] -> [ action BFSL | stationary BFS ]
+  right[ no BFS no Wall no Player | stationary BFS no Monster ] -> [ action BFSR | stationary BFS ]
 
 endloop
 
@@ -218,3 +191,24 @@ level_select_point
 #..#.#........p.#
 #....#..........#
 #################
+
+level_select_point
+
+#####################
+#...................#
+#.#..####....x..#...#
+#.#..#..#..####.##..#
+#.#.....#.....#.##..#
+#.####..#.###.#.##..#
+#...#...#.....#.##..#
+#..x#.#.##..#.#.....#
+#.#.#.#..#..#.#.###.#
+#.#...#.....#.#.....#
+#.#.........#.#.###.#
+#.#.........#...###.#
+#.###########.#.....#
+#.............#..p..#
+#.............#.###.#
+#..############.###.#
+#...................#
+#####################
